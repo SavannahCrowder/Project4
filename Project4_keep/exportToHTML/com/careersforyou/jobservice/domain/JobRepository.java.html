@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>JobRepository.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+JobRepository.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">domain</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Optional</span><span class="s2">;</span>
+
+<span class="s0">public interface </span><span class="s1">JobRepository </span><span class="s2">{</span>
+    <span class="s1">Iterable</span><span class="s2">&lt;</span><span class="s1">Job</span><span class="s2">&gt; </span><span class="s1">findAll</span><span class="s2">();</span>
+    <span class="s1">Optional</span><span class="s2">&lt;</span><span class="s1">Job</span><span class="s2">&gt; </span><span class="s1">findByJobid</span><span class="s2">(</span><span class="s1">String jobid</span><span class="s2">);</span>
+    <span class="s0">boolean </span><span class="s1">existsByJobid</span><span class="s2">(</span><span class="s1">String jobid</span><span class="s2">);</span>
+    <span class="s1">Job save</span><span class="s2">(</span><span class="s1">Job job</span><span class="s2">);</span>
+    <span class="s0">void </span><span class="s1">deleteByJobid</span><span class="s2">(</span><span class="s1">String jobid</span><span class="s2">);</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

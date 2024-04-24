@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>JobControllerAdvice.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+JobControllerAdvice.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">web</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">HashMap</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Map</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">domain</span><span class="s2">.</span><span class="s1">JobAlreadyExistsException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">domain</span><span class="s2">.</span><span class="s1">JobNotFoundException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">http</span><span class="s2">.</span><span class="s1">HttpStatus</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">validation</span><span class="s2">.</span><span class="s1">FieldError</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">MethodArgumentNotValidException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">ExceptionHandler</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">ResponseStatus</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">RestController</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">RestControllerAdvice</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">lang</span><span class="s2">.</span><span class="s1">reflect</span><span class="s2">.</span><span class="s1">Field</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">HashMap</span><span class="s2">;</span>
+
+<span class="s1">@RestControllerAdvice</span>
+<span class="s0">public class </span><span class="s1">JobControllerAdvice </span><span class="s2">{</span>
+    <span class="s1">@ExceptionHandler </span><span class="s2">(</span><span class="s1">JobNotFoundException</span><span class="s2">.</span><span class="s0">class</span><span class="s2">)</span>
+    <span class="s1">@ResponseStatus </span><span class="s2">(</span><span class="s1">HttpStatus</span><span class="s2">.</span><span class="s1">NOT_FOUND</span><span class="s2">)</span>
+    <span class="s1">String jobNotFoundHandler</span><span class="s2">(</span><span class="s1">JobNotFoundException ex</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s1">ex</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">();</span>
+<span class="s2">}</span>
+<span class="s1">@ExceptionHandler </span><span class="s2">(</span><span class="s1">JobAlreadyExistsException</span><span class="s2">.</span><span class="s0">class</span><span class="s2">)</span>
+<span class="s1">@ResponseStatus</span><span class="s2">(</span><span class="s1">HttpStatus</span><span class="s2">.</span><span class="s1">UNPROCESSABLE_ENTITY</span><span class="s2">)</span>
+<span class="s1">String jobAlreadyExistsHandler</span><span class="s2">(</span><span class="s1">JobAlreadyExistsException ex</span><span class="s2">) {</span>
+    <span class="s0">return </span><span class="s1">ex</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">();</span>
+<span class="s2">}</span>
+<span class="s1">@ExceptionHandler </span><span class="s2">(</span><span class="s1">MethodArgumentNotValidException</span><span class="s2">.</span><span class="s0">class</span><span class="s2">)</span>
+<span class="s1">@ResponseStatus</span><span class="s2">(</span><span class="s1">HttpStatus</span><span class="s2">.</span><span class="s1">BAD_REQUEST</span><span class="s2">)</span>
+<span class="s0">public </span><span class="s1">Map</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">, </span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">handleValidationExceptions </span><span class="s2">(</span>
+        <span class="s1">MethodArgumentNotValidException ex</span>
+<span class="s2">) {</span>
+    <span class="s1">var errors </span><span class="s2">= </span><span class="s0">new </span><span class="s1">HashMap</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">, </span><span class="s1">String</span><span class="s2">&gt;();</span>
+    <span class="s1">ex</span><span class="s2">.</span><span class="s1">getBindingResult</span><span class="s2">().</span><span class="s1">getAllErrors</span><span class="s2">().</span><span class="s1">forEach</span><span class="s2">(</span><span class="s1">error -&gt; </span><span class="s2">{</span>
+        <span class="s1">String fieldName </span><span class="s2">= ((</span><span class="s1">FieldError</span><span class="s2">) </span><span class="s1">error</span><span class="s2">).</span><span class="s1">getField</span><span class="s2">();</span>
+        <span class="s1">String errorMessage </span><span class="s2">= </span><span class="s1">error</span><span class="s2">.</span><span class="s1">getDefaultMessage</span><span class="s2">();</span>
+        <span class="s1">errors</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">fieldName</span><span class="s2">, </span><span class="s1">errorMessage</span><span class="s2">);</span>
+    <span class="s2">});</span>
+    <span class="s0">return </span><span class="s1">errors</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+</pre>
+</body>
+</html>

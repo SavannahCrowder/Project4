@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>InMemoryJobRepository.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+InMemoryJobRepository.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">persistence</span><span class="s2">;</span>
+<span class="s0">import  </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">domain</span><span class="s2">.</span><span class="s1">Job</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">stereotype</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">;</span>
+<span class="s0">import  </span><span class="s1">com</span><span class="s2">.</span><span class="s1">careersforyou</span><span class="s2">.</span><span class="s1">jobservice</span><span class="s2">.</span><span class="s1">domain</span><span class="s2">.</span><span class="s1">JobRepository</span><span class="s2">;</span>
+
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Map</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Optional</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">concurrent</span><span class="s2">.</span><span class="s1">ConcurrentHashMap</span><span class="s2">;</span>
+
+<span class="s1">@Repository</span>
+<span class="s0">public class </span><span class="s1">InMemoryJobRepository </span><span class="s0">implements </span><span class="s1">JobRepository</span><span class="s2">{</span>
+    <span class="s0">private static final </span><span class="s1">Map</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">, </span><span class="s1">Job</span><span class="s2">&gt; </span><span class="s1">jobs </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ConcurrentHashMap</span><span class="s2">&lt;&gt;();</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Iterable</span><span class="s2">&lt;</span><span class="s1">Job</span><span class="s2">&gt; </span><span class="s1">findAll</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">jobs</span><span class="s2">.</span><span class="s1">values</span><span class="s2">();}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Optional</span><span class="s2">&lt;</span><span class="s1">Job</span><span class="s2">&gt; </span><span class="s1">findByJobid</span><span class="s2">(</span><span class="s1">String jobid</span><span class="s2">){</span>
+        <span class="s0">return </span><span class="s1">existsByJobid</span><span class="s2">(</span><span class="s1">jobid</span><span class="s2">) ? </span><span class="s1">Optional</span><span class="s2">.</span><span class="s1">of</span><span class="s2">(</span><span class="s1">jobs</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">jobid</span><span class="s2">)) : </span><span class="s1">Optional</span><span class="s2">.</span><span class="s1">empty</span><span class="s2">();</span>
+    <span class="s2">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public boolean </span><span class="s1">existsByJobid</span><span class="s2">(</span><span class="s1">String jobid</span><span class="s2">) {</span>
+        <span class="s0">return </span><span class="s1">jobs</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">jobid</span><span class="s2">) != </span><span class="s0">null</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Job save</span><span class="s2">(</span><span class="s1">Job job</span><span class="s2">) {</span>
+        <span class="s1">jobs</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">job</span><span class="s2">.</span><span class="s1">jobid</span><span class="s2">(), </span><span class="s1">job</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">job</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">deleteByJobid</span><span class="s2">(</span><span class="s1">String jobid</span><span class="s2">) {</span>
+        <span class="s1">jobs</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">(</span><span class="s1">jobid</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
